@@ -1775,22 +1775,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1404414060338329734, guid: 7859ddb68002819488da629d7379b80b, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1404414060504233472, guid: 7859ddb68002819488da629d7379b80b, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 2.25
-      objectReference: {fileID: 0}
     - target: {fileID: 1404414060504233533, guid: 7859ddb68002819488da629d7379b80b, type: 3}
       propertyPath: controlledGateOnTrigger
       value: 
       objectReference: {fileID: 1163979257}
-    - target: {fileID: 1404414060748634411, guid: 7859ddb68002819488da629d7379b80b, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1404414061251023794, guid: 7859ddb68002819488da629d7379b80b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
