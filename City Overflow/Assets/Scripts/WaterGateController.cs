@@ -8,13 +8,14 @@ public class WaterGateController : MonoBehaviour
     private Vector3 _openedPosition;
     public bool automatic = true;
     public float switchTime = 5f;
+    public float moveDistance = 2f;
 
     // Start is called before the first frame update
     void Start()
     {
         _closedPosition = transform.position;
         _openedPosition = transform.position;
-        _openedPosition.x = _openedPosition.x + 1;
+        _openedPosition.x = _openedPosition.x + moveDistance;
         StartCoroutine(CloseGate(0f));
     }
 
