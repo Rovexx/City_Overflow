@@ -4,35 +4,27 @@ using UnityEngine;
 
 public class waterSensor : MonoBehaviour
 {
-    public float collisionCheckDistance;
-    public bool aboutToCollide;
-    public float distanceToCollision;
-    public Rigidbody rb;
+    public bool overflowSensor;
+    public WaterGateController controlledGateOnTrigger;
 
-    // Doesnt work
-    void OnParticleCollision(GameObject other)
+    void OnTriggerEnter(Collider collider)
     {
-        Debug.Log("Working!");
-    }
-
-    // Works only once
-    // void OnTriggerEnter(Collider other)
-    // {
-    //     Debug.Log("Enter trigger: " + other.name);
-    // }
-
-    void Update()
-    {
-        RaycastHit hit;
-        if (rb.SweepTest(transform.forward, out hit, collisionCheckDistance))
+        
+        if (collider.tag == "WaterSensor")
         {
-            aboutToCollide = true;
-            distanceToCollision = hit.distance;
-        }
-
-        if (Physics.CheckSphere(transform.position, collisionCheckDistance))
-        {
-            Debug.Log("Working!");
+            if (overflowSensor)
+            {
+                Debug.Log("overflow");
+                if (controlledGateOnTrigger != null)
+                {
+                    // Close controlled gate
+                    controlledGateOnTrigger.looping = false;
+                    controlledGateOnTrigger.CloseGate();
+                }
+            } else
+            {
+                Debug.Log("Level reached");
+            }
         }
     }
 }
