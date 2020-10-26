@@ -20,6 +20,7 @@ public class CameraController : MonoBehaviour
     private Vector2 _inputWASD;
     private Vector2 _inputRotate;
     private Vector2 _mousePosition;
+    private float _inputZoom;
     private Vector3 velocity = Vector3.zero;
     private Vector3 velocityRot = Vector3.zero;
 
@@ -29,6 +30,7 @@ public class CameraController : MonoBehaviour
         controls.Camera.Movement.performed += X => _inputWASD = X.ReadValue<Vector2>();
         controls.Camera.Rotate.performed += X => _inputRotate = X.ReadValue<Vector2>();
         controls.Camera.Mouse.performed += X => _mousePosition = X.ReadValue<Vector2>();
+        controls.Camera.Zoom.performed += X => _inputZoom = X.ReadValue<float>();
     }
 
     private void OnEnable()
@@ -65,6 +67,16 @@ public class CameraController : MonoBehaviour
         if (_inputWASD.x < -0.1f || (enableMousePanning && _mousePosition.x <= panBorderThickness))
         {
             cameraRigPosition -= cameraRigTransform.right * panSpeed * Time.fixedDeltaTime;
+        }
+        // Zoom in
+        if (_inputZoom > 0)
+        {
+            cameraRigPosition -= cameraTransform.forward * panSpeed * Time.fixedDeltaTime;
+        }
+        // Zoom out
+        if (_inputZoom < 0)
+        {
+           cameraRigPosition += cameraTransform.forward * panSpeed * Time.fixedDeltaTime;
         }
 
         // Rotate up
