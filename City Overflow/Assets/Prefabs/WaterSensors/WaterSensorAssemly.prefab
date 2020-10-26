@@ -531,7 +531,7 @@ MonoBehaviour:
   m_selfCollide: 0
   m_selfCollideFilter: 0
   m_fluid: 0
-  m_massScale: 1
+  m_massScale: 0.1
   m_drawParticles: 0
   m_recreateActor: 0
   m_asset: {fileID: 11400000, guid: 47e6a9ad068684741b5f1dda221cb28a, type: 2}
@@ -560,7 +560,7 @@ Transform:
   m_GameObject: {fileID: 1404414061251023795}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 1, z: 2}
   m_Children:
   - {fileID: 4070880182860943276}
   - {fileID: 1404414060338329734}
