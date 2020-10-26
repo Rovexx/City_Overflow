@@ -12,7 +12,7 @@ public class PumpController : MonoBehaviour
     {
         if (powered)
         {
-            rotor.Rotate (pumpSpeed, 0, 0 * Time.fixedDeltaTime);
+            rotor.Rotate (0, pumpSpeed, 0 * Time.fixedDeltaTime);
         }
     }
 }
