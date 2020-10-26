@@ -170,6 +170,7 @@ namespace NVIDIA.Flex
                 rigidbody.isKinematic = true;
                 m_trigger = GetComponent<BoxCollider>();
                 m_trigger.isTrigger = true;
+                gameObject.layer = LayerMask.NameToLayer("Flex"); // CHANGED
             }
         }
 
