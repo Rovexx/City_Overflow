@@ -49,6 +49,38 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Exit"",
+                    ""type"": ""Button"",
+                    ""id"": ""bb7dafe0-5cf1-4a29-9cf4-ff2a45a5d30e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Scroll"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""1abaf45a-9ac9-410f-9adc-899985fad267"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""RotateLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""5acb80cd-3a02-44bd-bdf7-743ba77b873d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""RotateRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""75a197bc-0616-4724-ab60-f31ef2060c97"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -280,6 +312,50 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""MousePosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6573a056-7fee-4180-8f7c-4e73b67091db"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Exit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""abc431ba-0112-4024-b4bc-4772d55cbea1"",
+                    ""path"": ""<Mouse>/scroll"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Scroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""618d62a5-1091-4f0f-9184-0f96f443a35a"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""RotateLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2fcf638f-0755-4549-a908-35ec4ca1c1bd"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""RotateRight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -861,6 +937,10 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_MousePosition = m_Player.FindAction("MousePosition", throwIfNotFound: true);
+        m_Player_Exit = m_Player.FindAction("Exit", throwIfNotFound: true);
+        m_Player_Scroll = m_Player.FindAction("Scroll", throwIfNotFound: true);
+        m_Player_RotateLeft = m_Player.FindAction("RotateLeft", throwIfNotFound: true);
+        m_Player_RotateRight = m_Player.FindAction("RotateRight", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -926,6 +1006,10 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_MousePosition;
+    private readonly InputAction m_Player_Exit;
+    private readonly InputAction m_Player_Scroll;
+    private readonly InputAction m_Player_RotateLeft;
+    private readonly InputAction m_Player_RotateRight;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -934,6 +1018,10 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @MousePosition => m_Wrapper.m_Player_MousePosition;
+        public InputAction @Exit => m_Wrapper.m_Player_Exit;
+        public InputAction @Scroll => m_Wrapper.m_Player_Scroll;
+        public InputAction @RotateLeft => m_Wrapper.m_Player_RotateLeft;
+        public InputAction @RotateRight => m_Wrapper.m_Player_RotateRight;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -955,6 +1043,18 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @MousePosition.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMousePosition;
                 @MousePosition.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMousePosition;
                 @MousePosition.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMousePosition;
+                @Exit.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnExit;
+                @Exit.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnExit;
+                @Exit.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnExit;
+                @Scroll.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnScroll;
+                @Scroll.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnScroll;
+                @Scroll.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnScroll;
+                @RotateLeft.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRotateLeft;
+                @RotateLeft.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRotateLeft;
+                @RotateLeft.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRotateLeft;
+                @RotateRight.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRotateRight;
+                @RotateRight.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRotateRight;
+                @RotateRight.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRotateRight;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -971,6 +1071,18 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @MousePosition.started += instance.OnMousePosition;
                 @MousePosition.performed += instance.OnMousePosition;
                 @MousePosition.canceled += instance.OnMousePosition;
+                @Exit.started += instance.OnExit;
+                @Exit.performed += instance.OnExit;
+                @Exit.canceled += instance.OnExit;
+                @Scroll.started += instance.OnScroll;
+                @Scroll.performed += instance.OnScroll;
+                @Scroll.canceled += instance.OnScroll;
+                @RotateLeft.started += instance.OnRotateLeft;
+                @RotateLeft.performed += instance.OnRotateLeft;
+                @RotateLeft.canceled += instance.OnRotateLeft;
+                @RotateRight.started += instance.OnRotateRight;
+                @RotateRight.performed += instance.OnRotateRight;
+                @RotateRight.canceled += instance.OnRotateRight;
             }
         }
     }
@@ -1131,6 +1243,10 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
+        void OnExit(InputAction.CallbackContext context);
+        void OnScroll(InputAction.CallbackContext context);
+        void OnRotateLeft(InputAction.CallbackContext context);
+        void OnRotateRight(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

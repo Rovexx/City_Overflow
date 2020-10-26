@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class Pipe : MonoBehaviour
 {
-    public Transform pipeInput;
-    public List<SnapPoint> pipeOutputs;
+    public List<SnapPoint> pipeSnapPoints;
+    public bool standingUp = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,7 +21,7 @@ public class Pipe : MonoBehaviour
 
     public void HideSnapPoints()
     {
-        foreach (SnapPoint snapPoint in pipeOutputs)
+        foreach (SnapPoint snapPoint in pipeSnapPoints)
         {
             if (snapPoint.transform.gameObject.activeSelf)
             {
@@ -32,7 +32,7 @@ public class Pipe : MonoBehaviour
 
     public void ShowSnapPoints()
     {
-        foreach (SnapPoint snapPoint in pipeOutputs)
+        foreach (SnapPoint snapPoint in pipeSnapPoints)
         {
             if (!snapPoint.transform.gameObject.activeSelf && !snapPoint.taken)
             {
@@ -43,7 +43,7 @@ public class Pipe : MonoBehaviour
 
     public void SetSnapPointAsTaken(Transform snapPoint)
     {
-       SnapPoint point = pipeOutputs.FirstOrDefault(output => output.transform.position == snapPoint.position);
+       SnapPoint point = pipeSnapPoints.FirstOrDefault(output => output.transform.position == snapPoint.position);
        if (point != null)
        {
            point.taken = true;
