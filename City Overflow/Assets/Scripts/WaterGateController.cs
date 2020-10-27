@@ -77,7 +77,6 @@ public class WaterGateController : MonoBehaviour
         {
             // Target position reached
             movingGate = false;
-            Debug.Log("Target position reached");
         }
     }
 

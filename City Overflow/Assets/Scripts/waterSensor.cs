@@ -4,27 +4,16 @@ using UnityEngine;
 
 public class waterSensor : MonoBehaviour
 {
-    public bool overflowSensor;
-    public WaterGateController controlledGateOnTrigger;
+    public WaterLevelController myWaterLevelController;
+    public bool overflowSensor = false;
+    public bool triggered = false;
 
     void OnTriggerEnter(Collider collider)
     {
-        
         if (collider.tag == "WaterSensor")
         {
-            if (overflowSensor)
-            {
-                Debug.Log("overflow");
-                if (controlledGateOnTrigger != null)
-                {
-                    // Close controlled gate
-                    controlledGateOnTrigger.looping = false;
-                    controlledGateOnTrigger.CloseGate();
-                }
-            } else
-            {
-                Debug.Log("Level reached");
-            }
+            triggered = true;
+            myWaterLevelController.UpdateWaterSensorData();
         }
     }
 }
