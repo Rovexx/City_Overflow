@@ -12,6 +12,7 @@ public class PipeController : MonoBehaviour
     public Transform pipeToAdd;
     public Transform pipeParent;
     public List<Transform> pipes;
+    private Material _originalMaterial;
 
     public Camera mainCamera;
 
@@ -74,16 +75,30 @@ public class PipeController : MonoBehaviour
             //left mouse click
             if (inputActions.Camera.Click.triggered)
             {
-                meshRenderer.material.color = Color.white;
+                //change back to original material
+                meshRenderer.material = _originalMaterial;
 
                 SetSnapPointsAsTaken(pipeToAdd,closestSnapPoint);
 
-                //enable collision
-                pipeToAdd.GetChild(0).GetComponent<MeshCollider>().enabled = true;
+                ReEnableCollider();
+
                 pipes.Add(pipeToAdd);
 
                 _addingNewPipe = false;
             }
+        }
+    }
+
+    private void ReEnableCollider()
+    {
+        //enable collision
+        Transform pipeBody = pipeToAdd.GetChild(0);
+        pipeBody.GetComponent<MeshCollider>().enabled = true;
+
+        if (pipeToAdd.name.Contains("Pump"))
+        {
+            //enable rotor collider
+            pipeBody.GetChild(0).GetComponent<MeshCollider>().enabled = true;
         }
     }
 
@@ -166,7 +181,7 @@ public class PipeController : MonoBehaviour
     {
         if (_addingNewPipe)
         {
-            Destroy(pipeToAdd.gameObject);
+            return;
         }
 
         if (transparent.isOn && !pipeTransform.name.Contains("Transparant"))
@@ -174,14 +189,22 @@ public class PipeController : MonoBehaviour
             return;
         }
 
+        if (!transparent.isOn && pipeTransform.name.Contains("Transparant"))
+        {
+            return;
+        }
+
+
         pipePrefabCopy = pipeTransform;
 
         pipeToAdd = CreateNewPipe(mainCamera.ScreenToWorldPoint(new Vector3(_mousePosition.x,_mousePosition.y,0)), pipeTransform);
-        
+
+        _originalMaterial = pipeTransform.GetChild(0).GetComponent<MeshRenderer>().sharedMaterial;
+
         _addingNewPipe = true;
     }
 
-    public Transform CreateNewPipe(Vector3 position, Transform pipe, bool final = false)
+    public Transform CreateNewPipe(Vector3 position, Transform pipe)
     {
         if (pipeParent == null)
         {
@@ -190,12 +213,19 @@ public class PipeController : MonoBehaviour
         }
 
         Transform newPipe = Instantiate(pipe, position,pipe.rotation, pipeParent);
-        
 
-        if (!final)
+
+        //disable colliders
+        Transform pipeBody = newPipe.GetChild(0);
+        pipeBody.GetComponent<MeshCollider>().enabled = false;
+
+        if (pipe.name.Contains("Pump"))
         {
-            newPipe.GetChild(0).GetComponent<MeshCollider>().enabled = false;
+            //disable rotor collider
+            pipeBody.GetChild(0).GetComponent<MeshCollider>().enabled = false;
         }
+
+
 
         return newPipe;
     }
