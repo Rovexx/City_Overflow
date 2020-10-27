@@ -8,6 +8,9 @@ public class WaterGateController : MonoBehaviour
     public bool openState = false;
     public float switchTime = 5f;
     public float moveDistance = 2f;
+    public bool opensX;
+    public bool opensY;
+    public bool opensZ;
 
     private bool movingGate = false;
     private Vector3 _closedPosition;
@@ -19,7 +22,18 @@ public class WaterGateController : MonoBehaviour
     {
         _closedPosition = transform.position;
         _openedPosition = transform.position;
-        _openedPosition.x = _openedPosition.x + moveDistance;
+        // Set correct open direction
+        if (opensX)
+        {
+            _openedPosition.x = _openedPosition.x + moveDistance;
+        } else if (opensY)
+        {
+            _openedPosition.y = _openedPosition.y + moveDistance;
+        } else if (opensZ)
+        {
+            _openedPosition.z = _openedPosition.z + moveDistance;
+        }
+        
         StartCoroutine(SwitchGate(0f, openState));
     }
 
@@ -63,7 +77,6 @@ public class WaterGateController : MonoBehaviour
         {
             // Target position reached
             movingGate = false;
-            Debug.Log("Target position reached");
         }
     }
 
