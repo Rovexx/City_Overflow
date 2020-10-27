@@ -76,14 +76,12 @@ public class PipeController : MonoBehaviour
             {
                 meshRenderer.material.color = Color.white;
 
-                
-                Transform pipe = CreateNewPipe(pipeToAdd.position, pipePrefabCopy, true);
-                pipe.rotation = pipeToAdd.rotation;
+                SetSnapPointsAsTaken(pipeToAdd,closestSnapPoint);
 
-                SetSnapPointsAsTaken(pipe,closestSnapPoint);
+                //enable collision
+                pipeToAdd.GetChild(0).GetComponent<MeshCollider>().enabled = true;
+                pipes.Add(pipeToAdd);
 
-                Destroy(pipeToAdd.gameObject);
-                pipes.Add(pipe);
                 _addingNewPipe = false;
             }
         }
@@ -192,15 +190,11 @@ public class PipeController : MonoBehaviour
         }
 
         Transform newPipe = Instantiate(pipe, position,pipe.rotation, pipeParent);
+        
 
         if (!final)
         {
-            //ignore raycast layer
-            newPipe.gameObject.layer = 2;
-            foreach (Transform child in newPipe)
-            {
-                child.gameObject.layer = 2;
-            }
+            newPipe.GetChild(0).GetComponent<MeshCollider>().enabled = false;
         }
 
         return newPipe;
