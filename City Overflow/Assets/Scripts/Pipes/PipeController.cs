@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PipeController : MonoBehaviour
 {
-    public PlayerInputActions inputActions;
+    public InputMaster inputActions;
     private Vector2 _mousePosition;
 
     public Transform pipePrefabCopy;
@@ -22,11 +22,11 @@ public class PipeController : MonoBehaviour
 
     void Awake()
     {
-        inputActions = new PlayerInputActions();
-        inputActions.Player.MousePosition.performed += value => _mousePosition = value.ReadValue<Vector2>();
-        inputActions.Player.Exit.performed += value => ExitPressed();
-        inputActions.Player.RotateLeft.performed += value => RotateObjectLeft();
-        inputActions.Player.RotateRight.performed += value => RotateObjectRight();
+        inputActions = new InputMaster();
+        inputActions.Camera.Mouse.performed += value => _mousePosition = value.ReadValue<Vector2>();
+        inputActions.Camera.Exit.performed += value => ExitPressed();
+        inputActions.Camera.RotateLeft.performed += value => RotateObjectLeft();
+        inputActions.Camera.RotateRight.performed += value => RotateObjectRight();
     }
 
     private void ExitPressed()
@@ -67,15 +67,16 @@ public class PipeController : MonoBehaviour
             //set pipe color to green
             meshRenderer.material.color = Color.green;
 
-            pipeToAdd.position = closestSnapPoint.transform.position;
+            pipeToAdd.position = closestSnapPoint.transform.position + (closestSnapPoint.transform.forward * 0.5f);
             
             RotatePipeToMatchSnapPoint(closestSnapPoint);
 
             //left mouse click
-            if (inputActions.Player.Fire.triggered)
+            if (inputActions.Camera.Click.triggered)
             {
                 meshRenderer.material.color = Color.white;
 
+                
                 Transform pipe = CreateNewPipe(pipeToAdd.position, pipePrefabCopy, true);
                 pipe.rotation = pipeToAdd.rotation;
 
@@ -93,7 +94,7 @@ public class PipeController : MonoBehaviour
         closestSnapPoint.transform.parent.parent.GetComponent<Pipe>().SetSnapPointAsTaken(closestSnapPoint.transform);
         foreach (SnapPoint snapPoint in pipe.GetComponent<Pipe>().pipeSnapPoints)
         {
-            if (Vector3.Distance(snapPoint.transform.position, closestSnapPoint.transform.position) <= 0.5f)
+            if (Vector3.Distance(snapPoint.transform.position, closestSnapPoint.transform.position) <= 1f)
             {
                 snapPoint.taken = true;
             }
