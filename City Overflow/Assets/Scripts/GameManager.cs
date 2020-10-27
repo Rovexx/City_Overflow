@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     public GameObject UITextObject;
 
 
-    private enum Scenarios {None, BothFull, City_1_Flooded, City_2_Flooded}
+    private enum Scenarios {None, BothFull, City_1_Flooded, City_2_Flooded, Both_Flooded}
     private Scenarios scenario = Scenarios.None;
     private int scenarioChecks = 0;
     private float countdownTimer = 10f;
@@ -48,6 +48,9 @@ public class GameManager : MonoBehaviour
         } else if (waterLevelCity_1.waterLevelPercentage == 1f && waterLevelCity_2.waterLevelPercentage >= 1f)
         {
             scenario = Scenarios.City_2_Flooded;
+        } else if (waterLevelCity_1.waterLevelPercentage > 1f && waterLevelCity_2.waterLevelPercentage > 1f) 
+        {
+            scenario = Scenarios.Both_Flooded;
         }
 
         /*
@@ -90,6 +93,7 @@ public class GameManager : MonoBehaviour
     private void GameStateCheck()
     {
         Debug.Log("Checking");
+        Debug.Log(scenario);
         if (scenario == Scenarios.BothFull)
         {
             // both cities full
@@ -98,10 +102,14 @@ public class GameManager : MonoBehaviour
         {
             // City 1 overflowed when city 2 is full
             UIText.text = "Gameover city 1 is flooded!";
-        } else if (scenario == Scenarios.City_1_Flooded)
+        } else if (scenario == Scenarios.City_2_Flooded)
         {
             // City 2 overflowed when city 1 is full
             UIText.text = "Gameover city 2 is flooded!";
+        } else if (scenario == Scenarios.Both_Flooded)
+        {
+            // Both cities overflowed
+            UIText.text = "Gameover both cities are flooded!";
         }
     }
 }
