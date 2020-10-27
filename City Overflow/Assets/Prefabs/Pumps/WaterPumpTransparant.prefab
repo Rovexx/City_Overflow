@@ -167,7 +167,7 @@ GameObject:
   - component: {fileID: 3949612561654165445}
   - component: {fileID: 2426878906820739199}
   - component: {fileID: 806681637776816297}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: WaterPumpTransparant
   m_TagString: Untagged
   m_Icon: {fileID: 0}
