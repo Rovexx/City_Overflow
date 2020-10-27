@@ -85,7 +85,7 @@ public class GameManager : MonoBehaviour
         if (countdownTimer > 0)
         {
             StartCoroutine(UpdateCountdown(1f));
-        } else {
+        } else if (countdownTimer == 0){
             GameStateCheck();
         }
     }
