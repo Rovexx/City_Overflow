@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -6,12 +7,15 @@ using UnityEngine.UI;
 
 public class PipeController : MonoBehaviour
 {
+    public GameObject waterSource;
+    public WaterGateController controlledGate;
+    private bool waterReset = false;
     public InputMaster inputActions;
     private Vector2 _mousePosition;
 
-    public Transform pipePrefabCopy;
-    public Transform pipeToAdd;
-    public Transform pipeParent;
+    private Transform pipePrefabCopy;
+    private Transform pipeToAdd;
+    private Transform pipeParent;
     public List<Transform> pipes;
     private Material _originalMaterial;
 
@@ -282,6 +286,7 @@ public class PipeController : MonoBehaviour
     {
         inputActions.Disable();
     }
+    
     private List<SnapPoint> GetClosestSnapPoints()
     {
         List<SnapPoint> pointsFromNewPipe = pipeToAdd.GetComponent<Pipe>().pipeSnapPoints;
@@ -312,7 +317,6 @@ public class PipeController : MonoBehaviour
                 }
             }
         }
-
         
         if (lowestDistance <= snapDistance && closestSnapPoints.Count != 0)
         {
@@ -320,5 +324,29 @@ public class PipeController : MonoBehaviour
         }
 
         return null;
+    }
+  
+    public void ResetWater()
+    {
+        StartCoroutine(ResetWater(0f));
+    }
+    private IEnumerator ResetWater(float time)
+    {
+        yield return new WaitForSeconds(time);
+        if (!waterReset)
+        {
+            waterReset = true;
+            waterSource.SetActive(false);
+            StartCoroutine(ResetWater(1f));
+        } else
+        {
+            waterReset = false;
+            waterSource.SetActive(true);
+        }
+    }
+
+    public void OpenGate()
+    {
+        controlledGate.OpenGate();
     }
 }

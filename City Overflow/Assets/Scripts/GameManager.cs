@@ -22,6 +22,11 @@ public class GameManager : MonoBehaviour
         Instantiate();
     }
 
+    public void EndGame()
+    {
+        Application.Quit();
+    }
+
     private void Instantiate()
     {
         if (instance != null)
