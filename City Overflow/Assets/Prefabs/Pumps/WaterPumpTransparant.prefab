@@ -219,8 +219,10 @@ MonoBehaviour:
   pipeSnapPoints:
   - transform: {fileID: 1061527180489322659}
     taken: 0
+    linkedPipe: {fileID: 0}
   - transform: {fileID: 5615729428339257425}
     taken: 0
+    linkedPipe: {fileID: 0}
   standingUp: 1
 --- !u!1 &9020125344315652358
 GameObject:
@@ -234,7 +236,7 @@ GameObject:
   - component: {fileID: 800106532103088292}
   - component: {fileID: 6308977560736392127}
   - component: {fileID: 8130561413245236835}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PumpHousing
   m_TagString: Untagged
   m_Icon: {fileID: 0}

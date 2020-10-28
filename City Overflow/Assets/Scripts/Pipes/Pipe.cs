@@ -41,12 +41,13 @@ public class Pipe : MonoBehaviour
         }
     }
 
-    public void SetSnapPointAsTaken(Transform snapPoint)
+    public void SetSnapPointAsTaken(Transform snapPoint, Transform pipe)
     {
        SnapPoint point = pipeSnapPoints.FirstOrDefault(output => output.transform.position == snapPoint.position);
        if (point != null)
        {
            point.taken = true;
+           point.linkedPipe = pipe;
        }
     }
 }

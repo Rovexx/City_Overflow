@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,6 +25,8 @@ public class PipeController : MonoBehaviour
     public float snapDistance = 1f;
 
     public Toggle transparent;
+
+    public LayerMask pipeLayerMask;
 
     void Awake()
     {
@@ -53,6 +56,45 @@ public class PipeController : MonoBehaviour
             pipeToAdd.position = mainCamera.ScreenToWorldPoint(new Vector3(_mousePosition.x, _mousePosition.y, distance));
 
             CheckForSnapPoints();
+        }
+        else
+        {
+            RaycastHit hit;
+            Ray ray = mainCamera.ScreenPointToRay(_mousePosition);
+
+            if (Physics.Raycast(ray, out hit, 1000f, pipeLayerMask))
+            {
+
+                if (inputActions.Camera.Delete.triggered)
+                {
+                    if (pipes[0] != hit.transform.parent)
+                    {
+
+                        foreach (Transform pipeinlist in pipes)
+                        {
+                            if (pipeinlist == hit.transform.parent)
+                            {
+                                continue;
+                            }
+
+                            Pipe pipe = pipeinlist.GetComponent<Pipe>();
+
+                            foreach (SnapPoint point in pipe.pipeSnapPoints)
+                            {
+                                if (point.taken && point.linkedPipe == hit.transform.parent)
+                                {
+                                    point.taken = false;
+                                    point.linkedPipe = null;
+                                }
+                            }
+                        }
+
+                        hit.transform.parent.gameObject.SetActive(false);
+                        hit.transform.parent.position = new Vector3(-9999f, -9999f, -9999f);
+                    }
+                }
+
+            }
         }
     }
 
@@ -108,12 +150,13 @@ public class PipeController : MonoBehaviour
 
     private void SetSnapPointsAsTaken(Transform pipe, SnapPoint closestSnapPoint)
     {
-        closestSnapPoint.transform.parent.parent.GetComponent<Pipe>().SetSnapPointAsTaken(closestSnapPoint.transform);
+        closestSnapPoint.transform.parent.parent.GetComponent<Pipe>().SetSnapPointAsTaken(closestSnapPoint.transform,pipe);
         foreach (SnapPoint snapPoint in pipe.GetComponent<Pipe>().pipeSnapPoints)
         {
             if (Vector3.Distance(snapPoint.transform.position, closestSnapPoint.transform.position) <= 1f)
             {
                 snapPoint.taken = true;
+                snapPoint.linkedPipe = pipe;
             }
         }
     }

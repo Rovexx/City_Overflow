@@ -8,4 +8,5 @@ public class SnapPoint
 {
     public Transform transform;
     public bool taken;
+    public Transform linkedPipe;
 }

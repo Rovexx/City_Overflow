@@ -81,6 +81,14 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Delete"",
+                    ""type"": ""Button"",
+                    ""id"": ""d1c9edc3-b09d-40b2-a90a-11b57c613592"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -279,6 +287,17 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""RotateRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f2cab4ab-7326-4509-896e-4fddf35fb174"",
+                    ""path"": ""<Keyboard>/delete"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardAndMouse"",
+                    ""action"": ""Delete"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -820,6 +839,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
         m_Camera_RotateLeft = m_Camera.FindAction("RotateLeft", throwIfNotFound: true);
         m_Camera_Exit = m_Camera.FindAction("Exit", throwIfNotFound: true);
         m_Camera_Click = m_Camera.FindAction("Click", throwIfNotFound: true);
+        m_Camera_Delete = m_Camera.FindAction("Delete", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -889,6 +909,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
     private readonly InputAction m_Camera_RotateLeft;
     private readonly InputAction m_Camera_Exit;
     private readonly InputAction m_Camera_Click;
+    private readonly InputAction m_Camera_Delete;
     public struct CameraActions
     {
         private @InputMaster m_Wrapper;
@@ -901,6 +922,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
         public InputAction @RotateLeft => m_Wrapper.m_Camera_RotateLeft;
         public InputAction @Exit => m_Wrapper.m_Camera_Exit;
         public InputAction @Click => m_Wrapper.m_Camera_Click;
+        public InputAction @Delete => m_Wrapper.m_Camera_Delete;
         public InputActionMap Get() { return m_Wrapper.m_Camera; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -934,6 +956,9 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @Click.started -= m_Wrapper.m_CameraActionsCallbackInterface.OnClick;
                 @Click.performed -= m_Wrapper.m_CameraActionsCallbackInterface.OnClick;
                 @Click.canceled -= m_Wrapper.m_CameraActionsCallbackInterface.OnClick;
+                @Delete.started -= m_Wrapper.m_CameraActionsCallbackInterface.OnDelete;
+                @Delete.performed -= m_Wrapper.m_CameraActionsCallbackInterface.OnDelete;
+                @Delete.canceled -= m_Wrapper.m_CameraActionsCallbackInterface.OnDelete;
             }
             m_Wrapper.m_CameraActionsCallbackInterface = instance;
             if (instance != null)
@@ -962,6 +987,9 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @Click.started += instance.OnClick;
                 @Click.performed += instance.OnClick;
                 @Click.canceled += instance.OnClick;
+                @Delete.started += instance.OnDelete;
+                @Delete.performed += instance.OnDelete;
+                @Delete.canceled += instance.OnDelete;
             }
         }
     }
@@ -1090,6 +1118,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
         void OnRotateLeft(InputAction.CallbackContext context);
         void OnExit(InputAction.CallbackContext context);
         void OnClick(InputAction.CallbackContext context);
+        void OnDelete(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

@@ -791,6 +791,10 @@ PrefabInstance:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 853278750}
+    - target: {fileID: 1909277157189768619, guid: f0d1692a8af5e2c408a8d8c28e93588c, type: 3}
+      propertyPath: pipeLayerMask.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
     - target: {fileID: 2891449101375011165, guid: f0d1692a8af5e2c408a8d8c28e93588c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
