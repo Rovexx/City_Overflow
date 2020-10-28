@@ -167,7 +167,7 @@ GameObject:
   - component: {fileID: 3949612561654165445}
   - component: {fileID: 2426878906820739199}
   - component: {fileID: 806681637776816297}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: WaterPumpTransparant
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -219,8 +219,10 @@ MonoBehaviour:
   pipeSnapPoints:
   - transform: {fileID: 1061527180489322659}
     taken: 0
+    linkedPipe: {fileID: 0}
   - transform: {fileID: 5615729428339257425}
     taken: 0
+    linkedPipe: {fileID: 0}
   standingUp: 1
 --- !u!1 &9020125344315652358
 GameObject:
@@ -234,7 +236,7 @@ GameObject:
   - component: {fileID: 800106532103088292}
   - component: {fileID: 6308977560736392127}
   - component: {fileID: 8130561413245236835}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PumpHousing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
