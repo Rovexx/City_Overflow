@@ -27,6 +27,6 @@ public class FPS_Counter : MonoBehaviour
     }
  
     void OnGUI(){
-        GUI.Label(new Rect(Screen.width / 2,30,200,70), fps, style);
+        GUI.Label(new Rect(50,30,200,70), fps, style);
     }
 }
